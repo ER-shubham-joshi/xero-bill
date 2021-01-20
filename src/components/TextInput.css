@@ -1,0 +1,13 @@
+.Items__input {
+  padding: 7px;
+  margin: 7px;
+  border: none;
+  font-style: italic;
+  border: #ddd 1px solid;
+  border-radius: 5px;
+  font-weight: bolder;
+}
+
+.Items {
+  flex: 1;
+}

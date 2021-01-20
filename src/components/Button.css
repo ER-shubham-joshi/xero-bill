@@ -1,0 +1,18 @@
+.click__button button {
+  background-color: #1b1950;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.click__button:hover button {
+  background-color: white;
+  color: #1b1950;
+}

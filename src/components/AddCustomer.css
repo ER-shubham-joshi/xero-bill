@@ -1,0 +1,30 @@
+.AddCustomer {
+  justify-content: space-around;
+  padding: 0 5%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.addBox {
+  align-items: center;
+  background-color: #ffffffb5;
+  border: 1px solid #1b1950;
+  color: #1b1950;
+  /* border-radius: 8px; */
+  display: flex;
+  flex-direction: column;
+  padding: 23%;
+  cursor: pointer;
+  width: 225px;
+  height: 130px;
+  margin-top: 2vh;
+}
+
+.addBox:hover {
+  background-color: #1b1950;
+  color: white;
+}
+
+.schoolLink {
+  text-decoration: none;
+}

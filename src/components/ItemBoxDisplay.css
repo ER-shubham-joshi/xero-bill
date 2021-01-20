@@ -1,0 +1,17 @@
+.itemBox__display__input {
+  margin-top: 2vh;
+  color: blueviolet;
+  display: flex;
+  margin-left: 1vw;
+}
+
+.itemBox__display__input p {
+  flex: 1;
+  font-weight: bolder;
+  margin-top: 10px;
+}
+
+.MuiSvgIcon-root {
+  height: 0.9rem !important;
+  width: 0.9rem !important;
+}

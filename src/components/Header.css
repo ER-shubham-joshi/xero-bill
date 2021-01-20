@@ -1,0 +1,37 @@
+.header {
+  height: 15vh;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  z-index: 100;
+  margin: 2vh 0 5vh 0;
+}
+
+.header__left,
+.header__center,
+.header__right {
+  margin: auto;
+}
+
+.header_logo {
+  background-color: #1b1950;
+  padding: 3px;
+  border-radius: 50%;
+}
+
+.header_logo > img {
+  height: 15vh;
+  cursor: pointer;
+  border-radius: 50%;
+  /* filter: invert(1); */
+}
+
+.header_logo:hover > img {
+  /* filter: invert(0); */
+}
+
+.header__title {
+  color: white;
+  /* -webkit-text-stroke: 2px black; */
+  text-shadow: 0 0 15px #000000, 0 0 15px #000000;
+}
