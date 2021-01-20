@@ -4,13 +4,13 @@ import TextInput from "../components/TextInput";
 import "./ItemBoxDisplay.css";
 
 function ItemBoxDisplay({
-  id = 1,
-  serailNo = 1,
-  amount = 125,
-  subject = "Mathematics",
-  classs = "10th",
-  pages = 5,
-  copies = 10,
+  id = Math.floor(Math.random() * 10000),
+  serailNo = "-",
+  amount = "-",
+  subject = "-",
+  classs = "-",
+  pages = "-",
+  copies = "-",
   state = false,
 }) {
   return (
