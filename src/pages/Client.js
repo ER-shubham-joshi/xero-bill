@@ -6,7 +6,7 @@ import "./Client.css";
 import { Add } from "@material-ui/icons";
 import ItemBoxDisplay from "../components/ItemBoxDisplay";
 import { useStateValue } from "../StateProvider";
-import { calcAmount } from "../reducer";
+import { calcAmount, calcTotalAmount } from "../reducer";
 
 function Client({ clientName = "Convent School" }) {
   const [{ dataEntry, clientData = [] }, dispatch] = useStateValue();
@@ -38,7 +38,7 @@ function Client({ clientName = "Convent School" }) {
     if (placeholder.includes("Class")) {
       dispatch({
         type: "SET_DATA_ENTRY",
-        dataEntry: { class: event.target.value },
+        dataEntry: { classs: event.target.value },
       });
     }
     if (placeholder.includes("pages")) {
@@ -116,6 +116,10 @@ function Client({ clientName = "Convent School" }) {
             state={row.state}
           />
         ))}
+      </div>
+      <div className="client__body__footer">
+        <hr></hr>
+        <p>Total : ₹{calcTotalAmount(clientData)}</p>
       </div>
     </div>
   );

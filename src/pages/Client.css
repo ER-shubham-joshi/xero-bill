@@ -5,7 +5,7 @@
 .client__header__sticky {
   position: sticky;
   top: 0;
-  background-color: #031021;
+  background-color: #274772;
 }
 .client__header__left,
 .client__header__right {
@@ -39,11 +39,26 @@
 }
 .client__body__header {
   margin-top: 2vh;
-  color: blueviolet;
+  color: #1b1950;
   display: flex;
   margin-left: 1vw;
 }
 .client__body__header p {
   flex: 1;
   font-weight: bolder;
+}
+
+.client__body__footer {
+  margin: 10px;
+  color: #1b1950;
+  font-weight: bolder;
+}
+.client__body__footer hr {
+  border: none;
+  background-color: #1b1950;
+  height: 2px;
+}
+.client__body__footer p {
+  margin-right: 150px;
+  text-align: right;
 }
