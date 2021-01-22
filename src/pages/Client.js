@@ -1,27 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ItemBoxInput from "../components/ItemBoxInput";
 import TextInput from "../components/TextInput";
 import Button from "../components/Button";
 import "./Client.css";
-import { Add } from "@material-ui/icons";
+import { Add, Delete, Save } from "@material-ui/icons";
 import ItemBoxDisplay from "../components/ItemBoxDisplay";
 import { useStateValue } from "../StateProvider";
 import { calcAmount, calcTotalAmount } from "../reducer";
+import { db } from "../firebase";
 
-function Client({ clientName = "Convent School" }) {
-  const [{ dataEntry, clientData = [] }, dispatch] = useStateValue();
+function Client() {
+  const [
+    { user, dataEntry, clientData, clientName },
+    dispatch,
+  ] = useStateValue();
+
+  let formattedClientName = clientName?.replaceAll(" ", "");
+
+  // set client data from DB
+  useEffect(() => {
+    db.collection("clientData").onSnapshot((snapshot) => {
+      snapshot.docs.length &&
+        dispatch({
+          type: "SET_CLIENT_DATA",
+          clientData: snapshot.docs
+            .map((doc) => doc.data())
+            .filter((e) => {
+              if (e[formattedClientName]) {
+                return true;
+              }
+            })[0]?.[formattedClientName],
+        });
+    });
+  }, []);
 
   // adds the row of data entry
   let addRow = (event) => {
     if (Object.keys(dataEntry).length) {
       dispatch({
-        type: "ADD_CLIENT_DATA",
+        type: "SET_DATA_ENTRY",
+        dataEntry: {
+          id: Date.now(),
+        },
       });
       dispatch({
-        type: "SET_DATA_ENTRY",
-        dataEntry: {},
+        type: "ADD_CLIENT_DATA",
       });
     }
+  };
+
+  // delete all the client data
+  let deleteClientData = () => {
+    dispatch({
+      type: "DELETE_CLIENT_DATA",
+    });
+    dispatch({
+      type: "RESET_DATA_ENTRY",
+    });
+  };
+
+  let saveClientData = () => {
+    db.collection("clientData")
+      .doc(user.uid)
+      .set(
+        {
+          [formattedClientName]: clientData,
+        },
+        { merge: true }
+      );
   };
 
   //handles the changes and store the values
@@ -90,7 +136,9 @@ function Client({ clientName = "Convent School" }) {
         </div>
         <div className="client__header__two">
           <ItemBoxInput change={change} />
-          <Button add={addRow} Icon={Add} />
+          <Button callback={addRow} Icon={Add} />
+          <Button callback={deleteClientData} Icon={Delete} />
+          <Button callback={saveClientData} Icon={Save} />
         </div>
         <hr></hr>
       </div>
@@ -104,10 +152,10 @@ function Client({ clientName = "Convent School" }) {
         <p>AMOUNT</p>
       </div>
       <div className="client__body__body">
-        {clientData.map((row) => (
+        {clientData?.map((row, i) => (
           <ItemBoxDisplay
             id={row.id}
-            serailNo={clientData.indexOf(row) + 1}
+            serailNo={i + 1}
             amount={calcAmount(row)}
             subject={row.subject}
             classs={row.classs}

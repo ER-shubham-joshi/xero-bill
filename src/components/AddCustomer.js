@@ -7,21 +7,24 @@ import SchoolTile from "./SchoolTile";
 
 import "./AddCustomer.css";
 
+import { useStateValue } from "../StateProvider";
+
 function AddCustomer() {
+  const [{ clients, user }, dispatch] = useStateValue();
+
   const handleAdd = () => {
-    alert("Adding...");
+    // alert("Adding...");
   };
-
-  const schools = ["Oriental", "Aurbindo", "Royal", "Joshi"];
-
   return (
     <div className="AddCustomer">
-      <Link to="/addClient">
-        <button className="addBox" onClick={handleAdd}>
-          <Add />
-        </button>
-      </Link>
-      {schools.map((scl) => (
+      {user && (
+        <Link to="/addClient">
+          <button className="addBox" onClick={handleAdd}>
+            <Add />
+          </button>
+        </Link>
+      )}
+      {clients.map((scl) => (
         <Link to="/client" className="schoolLink">
           <SchoolTile name={scl} />
         </Link>

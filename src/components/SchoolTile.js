@@ -1,9 +1,16 @@
 import React from "react";
 import "./SchoolTile.css";
 
+import { useStateValue } from "../StateProvider";
+
 function SchoolTile({ name }) {
+  const [, dispatch] = useStateValue();
+
   const handleSchoolPress = () => {
-    alert("Welcome to " + name);
+    dispatch({
+      type: "SET_CLIENT_NAME",
+      client: name,
+    });
   };
 
   return (

@@ -9,7 +9,7 @@ import Client from "./pages/Client";
 import NewClient from "./pages/NewClient";
 import Login from "./pages/Login";
 
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
 import { useStateValue } from "./StateProvider";
 
 function App() {
@@ -17,16 +17,19 @@ function App() {
 
   useEffect(() => {
     // will only run once when the app component loads...
-
     auth.onAuthStateChanged((authUser) => {
-      console.log("THE USER IS >>> ", authUser);
-
       if (authUser) {
         // the user just logged in / the user was logged in
-
         dispatch({
           type: "SET_USER",
           user: authUser,
+        });
+        db.collection("users").onSnapshot((snapshot) => {
+          snapshot.docs.length &&
+            dispatch({
+              type: "SET_CLIENTS",
+              clients: snapshot.docs.map((doc) => doc.data())[0]?.clients,
+            });
         });
       } else {
         // the user is logged out

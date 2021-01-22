@@ -1,64 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./NewCustomer.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+
+import { useStateValue } from "../StateProvider";
+import { db } from "../firebase";
 
 function NewCustomer() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const history = useHistory();
+  const [name, setName] = useState("");
 
-  const signIn = (e) => {
-    e.preventDefault();
-  };
+  let [{ user, clients }, dispatch] = useStateValue();
 
-  const register = (e) => {
+  const addClient = (e) => {
     e.preventDefault();
+    dispatch({
+      type: "ADD_CLIENT",
+      clients: name,
+    });
+    db.collection("users")
+      .doc(user.uid)
+      .set(
+        {
+          clients: [...clients, name],
+        },
+        { merge: true }
+      );
+    history.push("/");
   };
 
   return (
-    <div className="login">
+    <div className="NewCustomer">
       <Link to="/">
         <img
-          className="login__logo"
-          src="https://logodix.com/logo/2200365.png"
+          className="NewCustomer__logo"
+          src="https://media1.thehungryjpeg.com/thumbs2/ori_3809182_ovmcut3mx7mngypwitwglmb2q62k2lcfrz2848s5_monogram-xb-logo-design.jpg"
         />
       </Link>
 
-      <div className="login__container">
-        <h1>Sign-in</h1>
+      <div className="NewCustomer__container">
+        <h1>New Client Details</h1>
 
         <form>
-          <h5>E-mail</h5>
+          <h5>Client Name</h5>
           <input
             type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          <h5>Password</h5>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
 
           <button
             type="submit"
-            onClick={signIn}
-            className="login__signInButton"
+            onClick={addClient}
+            className="NewCustomer__addButton"
           >
-            Sign In
+            Submit
           </button>
         </form>
-
-        <p>
-          By signing-in you agree to the AMAZON FAKE CLONE Conditions of Use &
-          Sale. Please see our Privacy Notice, our Cookies Notice and our
-          Interest-Based Ads Notice.
-        </p>
-
-        <button onClick={register} className="login__registerButton">
-          Create your Amazon Account
-        </button>
       </div>
     </div>
   );

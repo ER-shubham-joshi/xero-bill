@@ -2,9 +2,25 @@ import React from "react";
 import "./Header.css";
 import Button from "./Button";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+
+import { useStateValue } from "../StateProvider";
+import { auth } from "../firebase";
 
 function Header() {
+  const history = useHistory();
+
+  const [{ user }, dispatch] = useStateValue();
+
+  const handleAuthenticaton = () => {
+    if (user) {
+      auth.signOut();
+      history.push("/");
+    } else {
+      history.push("/login");
+    }
+  };
+
   return (
     <div className="header">
       <div className="header__left">
@@ -22,8 +38,12 @@ function Header() {
       </div>
       <div className="header__right">
         <div className="header__signIn">
-          <Link to="/login">
-            <Button text="SIGN IN" />
+          <span>Hello {!user ? "Guest" : user.email}</span>
+          <Link to={!user && "/login"}>
+            <Button
+              text={user ? "Sign Out" : "Sign In"}
+              callback={handleAuthenticaton}
+            />
           </Link>
         </div>
       </div>
