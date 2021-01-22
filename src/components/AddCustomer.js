@@ -25,7 +25,7 @@ function AddCustomer() {
         </Link>
       )}
       {user &&
-        clients.sort().map((scl) => (
+        clients?.sort().map((scl) => (
           <Link to="/client" className="schoolLink">
             <SchoolTile name={scl} />
           </Link>

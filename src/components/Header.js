@@ -39,7 +39,7 @@ function Header() {
       <div className="header__right">
         <div className="header__signIn">
           <span>Hello {!user ? "Guest" : user.email}</span>
-          <Link to={!user && "/login"}>
+          <Link>
             <Button
               text={user ? "Sign Out" : "Sign In"}
               callback={handleAuthenticaton}

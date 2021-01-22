@@ -4,7 +4,9 @@ import NewCustomer from "../components/NewCustomer";
 function NewClient() {
   return (
     <div>
-      <NewCustomer />
+      <React.Fragment>
+        <NewCustomer />
+      </React.Fragment>
     </div>
   );
 }

@@ -3,22 +3,27 @@ import ItemBoxInput from "../components/ItemBoxInput";
 import TextInput from "../components/TextInput";
 import Button from "../components/Button";
 import "./Client.css";
-import { Add, Delete, Save } from "@material-ui/icons";
+import { Add, Delete, Save, Print } from "@material-ui/icons";
 import ItemBoxDisplay from "../components/ItemBoxDisplay";
 import { useStateValue } from "../StateProvider";
 import { calcAmount, calcTotalAmount } from "../reducer";
 import { db } from "../firebase";
 
 function Client() {
-  const [
-    { user, dataEntry, clientData, clientName },
-    dispatch,
-  ] = useStateValue();
+  let [{ user, dataEntry, clientData, clientName }, dispatch] = useStateValue();
+
+  clientName = clientName
+    ? clientName
+    : window.sessionStorage.getItem("clientName");
 
   let formattedClientName = clientName?.replaceAll(" ", "");
 
   // set client data from DB
   useEffect(() => {
+    dispatch({
+      type: "SET_CLIENT_NAME",
+      client: clientName,
+    });
     db.collection("clientData").onSnapshot((snapshot) => {
       snapshot.docs.length &&
         dispatch({
@@ -68,6 +73,10 @@ function Client() {
         },
         { merge: true }
       );
+  };
+
+  const printBill = () => {
+    window.print();
   };
 
   //handles the changes and store the values
@@ -139,6 +148,7 @@ function Client() {
           <Button callback={addRow} Icon={Add} />
           <Button callback={deleteClientData} Icon={Delete} />
           <Button callback={saveClientData} Icon={Save} />
+          <Button callback={printBill} Icon={Print} />
         </div>
         <hr></hr>
       </div>

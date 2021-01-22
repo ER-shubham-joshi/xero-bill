@@ -17,6 +17,7 @@ function NewCustomer() {
       type: "ADD_CLIENT",
       clients: name,
     });
+    console.log(clients);
     db.collection("users")
       .doc(user.uid)
       .set(

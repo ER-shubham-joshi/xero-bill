@@ -28,7 +28,13 @@ function App() {
           snapshot.docs.length &&
             dispatch({
               type: "SET_CLIENTS",
-              clients: snapshot.docs.map((doc) => doc.data())[0]?.clients,
+              clients: snapshot.docs
+                .filter((doc) => {
+                  if (doc.id === authUser.uid) {
+                    return true;
+                  }
+                })[0]
+                ?.data()?.clients,
             });
         });
       } else {

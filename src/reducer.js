@@ -43,10 +43,6 @@ const reducer = (state, action) => {
         clientData: [...state.clientData, state.dataEntry],
       };
     case "SET_CLIENT_DATA":
-      console.log({
-        ...state,
-        clientData: action.clientData ? action.clientData : [],
-      });
       return {
         ...state,
         clientData: action.clientData ? action.clientData : [],
@@ -80,7 +76,7 @@ const reducer = (state, action) => {
     case "SET_CLIENTS":
       return {
         ...state,
-        clients: action.clients,
+        clients: action.clients ? action.clients : [],
       };
 
     case "SET_USER":

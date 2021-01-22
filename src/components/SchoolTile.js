@@ -7,6 +7,7 @@ function SchoolTile({ name }) {
   const [, dispatch] = useStateValue();
 
   const handleSchoolPress = () => {
+    window.sessionStorage.setItem("clientName", name);
     dispatch({
       type: "SET_CLIENT_NAME",
       client: name,
