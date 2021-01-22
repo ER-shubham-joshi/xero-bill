@@ -24,11 +24,12 @@ function AddCustomer() {
           </button>
         </Link>
       )}
-      {clients.map((scl) => (
-        <Link to="/client" className="schoolLink">
-          <SchoolTile name={scl} />
-        </Link>
-      ))}
+      {user &&
+        clients.sort().map((scl) => (
+          <Link to="/client" className="schoolLink">
+            <SchoolTile name={scl} />
+          </Link>
+        ))}
     </div>
   );
 }

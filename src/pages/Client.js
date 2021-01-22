@@ -152,18 +152,20 @@ function Client() {
         <p>AMOUNT</p>
       </div>
       <div className="client__body__body">
-        {clientData?.map((row, i) => (
-          <ItemBoxDisplay
-            id={row.id}
-            serailNo={i + 1}
-            amount={calcAmount(row)}
-            subject={row.subject}
-            classs={row.classs}
-            pages={row.pages}
-            copies={row.copies}
-            state={row.state}
-          />
-        ))}
+        {clientData
+          ?.sort((a, b) => a.classs - b.classs)
+          .map((row, i) => (
+            <ItemBoxDisplay
+              id={row.id}
+              serailNo={i + 1}
+              amount={calcAmount(row)}
+              subject={row.subject}
+              classs={row.classs}
+              pages={row.pages}
+              copies={row.copies}
+              state={row.state}
+            />
+          ))}
       </div>
       <div className="client__body__footer">
         <hr></hr>
