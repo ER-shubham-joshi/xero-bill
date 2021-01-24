@@ -38,7 +38,10 @@ function Header() {
       </div>
       <div className="header__right">
         <div className="header__signIn">
-          <span>Hello {!user ? "Guest" : user.email}</span>
+          <span>
+            Hello{" "}
+            {!user ? "Guest" : user.displayName ? user.displayName : user.email}
+          </span>
           <Link>
             <Button
               text={user ? "Sign Out" : "Sign In"}

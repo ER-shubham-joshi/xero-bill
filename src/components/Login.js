@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Login.css";
 import { Link, useHistory } from "react-router-dom";
 import { auth } from "../firebase";
+import firebase from "firebase";
 
 function Login() {
   const history = useHistory();
@@ -13,7 +14,7 @@ function Login() {
 
     auth
       .signInWithEmailAndPassword(email, password)
-      .then((auth) => {
+      .then(() => {
         history.push("/");
       })
       .catch((error) => alert(error.message));
@@ -24,11 +25,21 @@ function Login() {
 
     auth
       .createUserWithEmailAndPassword(email, password)
-      .then((auth) => {
-        // it successfully created a new user with email and password
-        if (auth) {
-          history.push("/");
-        }
+      .then(() => {
+        history.push("/");
+      })
+      .catch((error) => alert(error.message));
+  };
+
+  const signInWithGoogle = (e) => {
+    e.preventDefault();
+    let provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
+    auth.languageCode = "en";
+    auth
+      .signInWithPopup(provider)
+      .then(() => {
+        history.push("/");
       })
       .catch((error) => alert(error.message));
   };
@@ -70,7 +81,7 @@ function Login() {
 
           <button
             type="submit"
-            onClick={signIn}
+            onClick={signInWithGoogle}
             className="login__signInButton"
           >
             Log in using Google

@@ -25,6 +25,13 @@
   border-radius: 50%;
 }
 
+.client__header__one Button {
+  padding: 10px;
+  margin-top: 5px;
+  margin-left: 15px;
+  border-radius: 50%;
+}
+
 .itemBox__display {
   margin-top: 2vh;
 }

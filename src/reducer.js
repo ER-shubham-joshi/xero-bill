@@ -67,12 +67,6 @@ const reducer = (state, action) => {
         clientName: action.client,
       };
 
-    case "ADD_CLIENT":
-      return {
-        ...state,
-        clients: [...state.clients, action.clients],
-      };
-
     case "SET_CLIENTS":
       return {
         ...state,

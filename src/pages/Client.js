@@ -3,14 +3,21 @@ import ItemBoxInput from "../components/ItemBoxInput";
 import TextInput from "../components/TextInput";
 import Button from "../components/Button";
 import "./Client.css";
-import { Add, Delete, Save, Print } from "@material-ui/icons";
+import { Add, Delete, Save, Print, ArrowBack } from "@material-ui/icons";
 import ItemBoxDisplay from "../components/ItemBoxDisplay";
 import { useStateValue } from "../StateProvider";
 import { calcAmount, calcTotalAmount } from "../reducer";
 import { db } from "../firebase";
+import { useHistory } from "react-router-dom";
+import MessageToast from "../components/MessageToast";
+import Popup from "../components/Popup";
+import Confirmation from "../components/Confirmation";
 
 function Client() {
+  const history = useHistory();
   let [{ user, dataEntry, clientData, clientName }, dispatch] = useStateValue();
+  let [notify, setNotify] = useState(false);
+  let [deletePop, setDeletePop] = useState(false);
 
   clientName = clientName
     ? clientName
@@ -64,6 +71,7 @@ function Client() {
     });
   };
 
+  // save all the entries
   let saveClientData = () => {
     db.collection("clientData")
       .doc(user.uid)
@@ -73,10 +81,26 @@ function Client() {
         },
         { merge: true }
       );
+    notification();
   };
 
   const printBill = () => {
     window.print();
+  };
+
+  const notification = () => {
+    setNotify(true);
+    setTimeout(() => {
+      setNotify(false);
+    }, 3000);
+  };
+
+  const openPop = () => {
+    setDeletePop(true);
+  };
+
+  const closePop = () => {
+    setDeletePop(false);
   };
 
   //handles the changes and store the values
@@ -125,6 +149,12 @@ function Client() {
     <div className="client">
       <div className="client__header__sticky">
         <div className="client__header__one">
+          <Button
+            callback={() => {
+              history.push("/");
+            }}
+            Icon={ArrowBack}
+          />
           <div className="client__header__left">
             <h1>{clientName}</h1>
           </div>
@@ -146,7 +176,7 @@ function Client() {
         <div className="client__header__two">
           <ItemBoxInput change={change} />
           <Button callback={addRow} Icon={Add} />
-          <Button callback={deleteClientData} Icon={Delete} />
+          <Button callback={openPop} Icon={Delete} />
           <Button callback={saveClientData} Icon={Save} />
           <Button callback={printBill} Icon={Print} />
         </div>
@@ -177,6 +207,29 @@ function Client() {
             />
           ))}
       </div>
+      <div className="delete__popup">
+        {deletePop && (
+          <Popup
+            confirmation="true"
+            content={
+              <Confirmation
+                handleYes={() => {
+                  deleteClientData();
+                  closePop();
+                }}
+                handleNo={() => {
+                  closePop();
+                }}
+                text="Do you want to delete all the entries ?"
+              />
+            }
+            handleClose={closePop}
+          />
+        )}
+      </div>
+      {notify && (
+        <MessageToast content="Your entires has been saved successfully" />
+      )}
       <div className="client__body__footer">
         <hr></hr>
         <p>Total : ₹{calcTotalAmount(clientData)}</p>
