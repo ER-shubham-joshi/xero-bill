@@ -44,6 +44,35 @@ function Login() {
       .catch((error) => alert(error.message));
   };
 
+  // const signInWithPhone = (e) => {
+  //   e.preventDefault();
+  //   auth.languageCode = "en";
+  //   window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+  //     "recaptcha-container"
+  //   );
+  //   window.recaptchaVerifier.render().then((widgetId) => {
+  //     window.recaptchaWidgetId = widgetId;
+  //   });
+  //   // const recaptchaResponse = grecaptcha.getResponse(recaptchaWidgetId);
+  //   // console.log(recaptchaResponse, "recaptchaResponse");
+  //   const phoneNumber = email;
+  //   const appVerifier = window.recaptchaVerifier;
+  //   auth
+  //     .signInWithPhoneNumber(phoneNumber, appVerifier)
+  //     .then((confirmationResult) => {
+  //       // SMS sent. Prompt user to type the code from the message, then sign the
+  //       // user in with confirmationResult.confirm(code).
+  //       window.confirmationResult = confirmationResult;
+  //       console.log(confirmationResult);
+  //       // ...
+  //     })
+  //     .catch((error) => {
+  //       // Error; SMS not sent
+  //       // ...
+  //       console.log(error);
+  //     });
+  // };
+
   return (
     <div className="login">
       <Link to="/">

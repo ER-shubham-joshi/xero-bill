@@ -35,3 +35,8 @@
   /* -webkit-text-stroke: 2px black; */
   text-shadow: 0 0 15px #000000, 0 0 15px #000000;
 }
+
+.header__signIn p {
+  color: #1b1950;
+  font-weight: bold;
+}

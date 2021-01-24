@@ -16,7 +16,7 @@ import "./AddCustomer.css";
 import { useStateValue } from "../StateProvider";
 
 function AddCustomer() {
-  const [{ clients, user }, dispatch] = useStateValue();
+  const [{ clients, user, sortBy }, dispatch] = useStateValue();
 
   const [newClient, setNewClient] = useState(false);
 
@@ -35,6 +35,21 @@ function AddCustomer() {
     setTimeout(() => {
       setNotify(false);
     }, 3000);
+  };
+
+  const sortAsPer = (clients, sortBy) => {
+    if (sortBy === "Date") {
+      return clients.sort((a, b) => {
+        return (
+          new Date(a.created.toDate().toLocaleDateString()) -
+          new Date(b.created.toDate().toLocaleDateString())
+        );
+      });
+    }
+    if (sortBy === "Name") {
+      return clients.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    return clients;
   };
 
   return (
@@ -58,13 +73,13 @@ function AddCustomer() {
         />
       )}
       {user &&
-        clients.map((scl) => (
-          <Link to="/client" className="schoolLink">
-            <SchoolTile
-              name={scl.name}
-              created={scl.created.toDate().toLocaleDateString()}
-            />
-          </Link>
+        sortAsPer(clients, sortBy).map((scl) => (
+          // <Link to="/client" className="schoolLink">
+          <SchoolTile
+            name={scl.name}
+            created={scl.created.toDate().toLocaleDateString()}
+          />
+          // </Link>
         ))}
       {notify && <MessageToast content="Please fill mandatory fields" />}
     </div>

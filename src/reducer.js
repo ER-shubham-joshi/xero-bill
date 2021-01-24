@@ -4,6 +4,7 @@ export const initialState = {
   clientName: null,
   clientData: [],
   clients: [],
+  sortBy: "",
 };
 
 // Calculate the amount of the xerox
@@ -78,7 +79,11 @@ const reducer = (state, action) => {
         ...state,
         user: action.user,
       };
-
+    case "SET_SORT":
+      return {
+        ...state,
+        sortBy: action.sortBy,
+      };
     default:
       return state;
   }

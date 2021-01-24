@@ -22,7 +22,8 @@
 
 .deleteButton {
   background-color: #d2691e00;
-  color: white;
+  color: #1b1950;
   border: 0;
   cursor: pointer;
+  position: absolute;
 }

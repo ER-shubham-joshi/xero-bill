@@ -6,6 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 
 import { useStateValue } from "../StateProvider";
 import { auth } from "../firebase";
+import DropDown from "./DropDown";
 
 function Header() {
   const history = useHistory();
@@ -19,6 +20,13 @@ function Header() {
     } else {
       history.push("/login");
     }
+  };
+
+  const setSortBy = (e) => {
+    dispatch({
+      type: "SET_SORT",
+      sortBy: e.target.value,
+    });
   };
 
   return (
@@ -38,16 +46,25 @@ function Header() {
       </div>
       <div className="header__right">
         <div className="header__signIn">
-          <span>
+          <p>
             Hello{" "}
             {!user ? "Guest" : user.displayName ? user.displayName : user.email}
-          </span>
+          </p>
           <Link>
             <Button
               text={user ? "Sign Out" : "Sign In"}
               callback={handleAuthenticaton}
             />
           </Link>
+          <DropDown
+            callback={setSortBy}
+            label="Sort by : "
+            options={[
+              { value: "Name" },
+              { value: "Date" },
+              { value: "None", selected: true },
+            ]}
+          />
         </div>
       </div>
     </div>
