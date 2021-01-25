@@ -17,12 +17,16 @@
 }
 .client__header__two {
   margin: 20px;
-  display: flex;
 }
 .client__header__two Button {
   padding: 10px;
   margin-top: 5px;
   border-radius: 50%;
+}
+.client__header__two .dropdown {
+  margin-top: 10px;
+  margin-left: 10px;
+  color: white;
 }
 
 .client__header__one Button {

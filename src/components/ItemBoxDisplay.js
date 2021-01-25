@@ -8,11 +8,11 @@ import { useStateValue } from "../StateProvider";
 function ItemBoxDisplay({
   id,
   serailNo,
-  amount = "-",
-  subject = "-",
+  amount,
+  subject,
   classs = "-",
-  pages = "-",
-  copies = "-",
+  pages,
+  copies,
   state = false,
 }) {
   const [, dispatch] = useStateValue();
@@ -23,13 +23,33 @@ function ItemBoxDisplay({
     <div className="itemBox__display">
       <div className="itemBox__display__input">
         <p>{serailNo}.</p>
-        <TextInput placeholder="Subject Name" value={subject} state={state} />
-        <TextInput placeholder="Class Name" value={classs} state={state} />
-        <TextInput placeholder="Number of pages" value={pages} state={state} />
+        <TextInput
+          placeholder="Subject Name"
+          value={subject}
+          state={state}
+          type="text"
+          readOnly="true"
+        />
+        <TextInput
+          placeholder="Class Name"
+          value={classs}
+          state={state}
+          type="text"
+          readOnly="true"
+        />
+        <TextInput
+          placeholder="Number of pages"
+          value={pages}
+          state={state}
+          type="number"
+          readOnly="true"
+        />
         <TextInput
           placeholder="Number of copies"
           value={copies}
           state={state}
+          type="number"
+          readOnly="true"
         />
         <p>₹{amount}</p>
         <Button callback={deleteRow} Icon={Delete} />

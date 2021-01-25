@@ -12,12 +12,15 @@ import { useHistory } from "react-router-dom";
 import MessageToast from "../components/MessageToast";
 import Popup from "../components/Popup";
 import Confirmation from "../components/Confirmation";
+import DropDown from "../components/DropDown";
 
 function Client() {
   const history = useHistory();
   let [{ user, dataEntry, clientData, clientName }, dispatch] = useStateValue();
   let [notify, setNotify] = useState(false);
   let [deletePop, setDeletePop] = useState(false);
+  let [messageToast, setMessageToast] = useState("");
+  let [sortBy, setSortBy] = useState("");
 
   clientName = clientName
     ? clientName
@@ -48,26 +51,32 @@ function Client() {
 
   // adds the row of data entry
   let addRow = (event) => {
-    if (Object.keys(dataEntry).length) {
-      dispatch({
-        type: "SET_DATA_ENTRY",
-        dataEntry: {
-          id: Date.now(),
-        },
-      });
-      dispatch({
-        type: "ADD_CLIENT_DATA",
-      });
+    let mandatory = ["subject", "pages", "copies", "ro1", "ro2"];
+    let missingKeys = [];
+    missingKeys = mandatory.filter((e) => {
+      return !dataEntry[e];
+    });
+
+    if (missingKeys.length) {
+      setMessageToast(`${missingKeys} is mandatory field`);
+      return notification();
     }
+
+    dispatch({
+      type: "SET_DATA_ENTRY",
+      dataEntry: {
+        id: Date.now(),
+      },
+    });
+    dispatch({
+      type: "ADD_CLIENT_DATA",
+    });
   };
 
   // delete all the client data
   let deleteClientData = () => {
     dispatch({
       type: "DELETE_CLIENT_DATA",
-    });
-    dispatch({
-      type: "RESET_DATA_ENTRY",
     });
   };
 
@@ -81,6 +90,7 @@ function Client() {
         },
         { merge: true }
       );
+    setMessageToast("Your entires has been saved successfully");
     notification();
   };
 
@@ -92,7 +102,7 @@ function Client() {
     setNotify(true);
     setTimeout(() => {
       setNotify(false);
-    }, 3000);
+    }, 2000);
   };
 
   const openPop = () => {
@@ -103,6 +113,16 @@ function Client() {
     setDeletePop(false);
   };
 
+  const sortAsPer = (clientData, sortBy) => {
+    if (sortBy === "Name") {
+      return clientData.sort((a, b) => a.subject.localeCompare(b.subject));
+    }
+    if (sortBy === "Class") {
+      return clientData.sort((a, b) => a.classs - b.classs);
+    }
+    return clientData;
+  };
+
   //handles the changes and store the values
   let change = (event) => {
     let {
@@ -111,7 +131,7 @@ function Client() {
     if (placeholder.includes("Subject")) {
       dispatch({
         type: "SET_DATA_ENTRY",
-        dataEntry: { subject: event.target.value },
+        dataEntry: { subject: event.target.value?.toUpperCase() },
       });
     }
     if (placeholder.includes("Class")) {
@@ -164,12 +184,14 @@ function Client() {
               name="nCopies"
               placeholder="Rate of 1 page in rupee"
               change={change}
+              type="number"
             />
             <TextInput
               id="Rate2"
               name="nCopies"
               placeholder="Rate of 2 page in rupee"
               change={change}
+              type="number"
             />
           </div>
         </div>
@@ -179,6 +201,17 @@ function Client() {
           <Button callback={openPop} Icon={Delete} />
           <Button callback={saveClientData} Icon={Save} />
           <Button callback={printBill} Icon={Print} />
+          <DropDown
+            callback={(e) => {
+              setSortBy(e.target.value);
+            }}
+            label="Sort by : "
+            options={[
+              { value: "Name" },
+              { value: "Class" },
+              { value: "None", selected: true },
+            ]}
+          />
         </div>
         <hr></hr>
       </div>
@@ -192,20 +225,18 @@ function Client() {
         <p>AMOUNT</p>
       </div>
       <div className="client__body__body">
-        {clientData
-          ?.sort((a, b) => a.classs - b.classs)
-          .map((row, i) => (
-            <ItemBoxDisplay
-              id={row.id}
-              serailNo={i + 1}
-              amount={calcAmount(row)}
-              subject={row.subject}
-              classs={row.classs}
-              pages={row.pages}
-              copies={row.copies}
-              state={row.state}
-            />
-          ))}
+        {sortAsPer(clientData, sortBy).map((row, i) => (
+          <ItemBoxDisplay
+            id={row.id}
+            serailNo={i + 1}
+            amount={calcAmount(row)}
+            subject={row.subject}
+            classs={row.classs}
+            pages={row.pages}
+            copies={row.copies}
+            state={row.state}
+          />
+        ))}
       </div>
       <div className="delete__popup">
         {deletePop && (
@@ -227,9 +258,7 @@ function Client() {
           />
         )}
       </div>
-      {notify && (
-        <MessageToast content="Your entires has been saved successfully" />
-      )}
+      {notify && <MessageToast content={messageToast} />}
       <div className="client__body__footer">
         <hr></hr>
         <p>Total : ₹{calcTotalAmount(clientData)}</p>

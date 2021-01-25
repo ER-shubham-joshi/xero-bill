@@ -116,13 +116,13 @@ function Login() {
             Log in using Google
           </button>
 
-          <button
+          {/* <button
             type="submit"
             onClick={signIn}
             className="login__signInButton"
           >
             Log in using Mobile Number
-          </button>
+          </button> */}
         </form>
 
         <p>

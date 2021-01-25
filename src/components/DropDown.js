@@ -4,8 +4,10 @@ import "./DropDown.css";
 function DropDown({ label, options, callback }) {
   return (
     <div className="dropdown">
-      <label for="cars">{label}</label>
-      <select onChange={callback}>
+      <label for="cars" className="dropdown__label">
+        {label}
+      </label>
+      <select onChange={callback} className="dropdown__select">
         {options.map((e) => (
           <option selected={e.selected} value={e.value}>
             {e.value}

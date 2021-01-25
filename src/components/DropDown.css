@@ -1,4 +1,15 @@
 .dropdown {
-  font-weight: bold;
+  font-weight: 600;
   margin-top: 5%;
+  color: #1b1950;
+}
+
+.dropdown__select {
+  padding: 5px;
+  width: 100px;
+}
+
+.dropdown__label {
+  text-transform: uppercase;
+  font-size: small;
 }

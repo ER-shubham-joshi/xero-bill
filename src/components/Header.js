@@ -56,15 +56,17 @@ function Header() {
               callback={handleAuthenticaton}
             />
           </Link>
-          <DropDown
-            callback={setSortBy}
-            label="Sort by : "
-            options={[
-              { value: "Name" },
-              { value: "Date" },
-              { value: "None", selected: true },
-            ]}
-          />
+          {user && (
+            <DropDown
+              callback={setSortBy}
+              label="Sort by : "
+              options={[
+                { value: "Name" },
+                { value: "Date" },
+                { value: "None", selected: true },
+              ]}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -13,6 +13,7 @@
   margin-top: 2vh;
   font-size: 1em;
   font-weight: bold;
+  text-transform: uppercase;
 }
 
 .schoolBox:hover {
@@ -26,4 +27,10 @@
   border: 0;
   cursor: pointer;
   position: absolute;
+  margin-left: -1%;
+  padding: 1%;
+}
+
+.SchoolTile {
+  text-align: right;
 }

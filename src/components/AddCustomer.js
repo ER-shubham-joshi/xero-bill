@@ -15,12 +15,37 @@ import "./AddCustomer.css";
 
 import { useStateValue } from "../StateProvider";
 
+import Confirmation from "./Confirmation";
+
+import { db } from "../firebase";
+
 function AddCustomer() {
-  const [{ clients, user, sortBy }, dispatch] = useStateValue();
+  const [
+    { clients, user, sortBy, clientToBeDeleted },
+    dispatch,
+  ] = useStateValue();
 
   const [newClient, setNewClient] = useState(false);
 
   let [notify, setNotify] = useState(false);
+
+  let [deletePop, setDeletePop] = useState(false);
+
+  const openPop = () => {
+    setDeletePop(true);
+  };
+
+  const closePop = () => {
+    setDeletePop(false);
+  };
+
+  const deleteClient = () => {
+    let aClient = clients.filter((obj) => obj.name !== clientToBeDeleted);
+
+    db.collection("users").doc(user.uid).set({
+      clients: aClient,
+    });
+  };
 
   const handleAdd = () => {
     setNewClient(true);
@@ -34,7 +59,7 @@ function AddCustomer() {
     setNotify(true);
     setTimeout(() => {
       setNotify(false);
-    }, 3000);
+    }, 2000);
   };
 
   const sortAsPer = (clients, sortBy) => {
@@ -72,14 +97,31 @@ function AddCustomer() {
           handleClose={handleClose}
         />
       )}
+      {deletePop && (
+        <Popup
+          confirmation="true"
+          content={
+            <Confirmation
+              handleYes={() => {
+                deleteClient();
+                closePop();
+              }}
+              handleNo={() => {
+                closePop();
+              }}
+              text="Do you want to delete this client ?"
+            />
+          }
+          handleClose={closePop}
+        />
+      )}
       {user &&
         sortAsPer(clients, sortBy).map((scl) => (
-          // <Link to="/client" className="schoolLink">
           <SchoolTile
             name={scl.name}
             created={scl.created.toDate().toLocaleDateString()}
+            openPop={openPop}
           />
-          // </Link>
         ))}
       {notify && <MessageToast content="Please fill mandatory fields" />}
     </div>

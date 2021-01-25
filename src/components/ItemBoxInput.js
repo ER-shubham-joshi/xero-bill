@@ -6,10 +6,18 @@ function ItemBoxInput({ change }) {
   return (
     <div className="ItemBox__input">
       <div className="ItemBox__input__Input">
-        <TextInput change={change} placeholder="Subject Name" />
-        <TextInput change={change} placeholder="Class Name" />
-        <TextInput change={change} placeholder="Number of pages" />
-        <TextInput change={change} placeholder="Number of copies" />
+        <TextInput change={change} placeholder="Subject Name" type="text" />
+        <TextInput change={change} placeholder="Class Name" type="number" />
+        <TextInput
+          change={change}
+          placeholder="Number of pages"
+          type="number"
+        />
+        <TextInput
+          change={change}
+          placeholder="Number of copies"
+          type="number"
+        />
       </div>
     </div>
   );

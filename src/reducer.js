@@ -5,10 +5,11 @@ export const initialState = {
   clientData: [],
   clients: [],
   sortBy: "",
+  clientToBeDeleted: "",
 };
 
 // Calculate the amount of the xerox
-export const calcAmount = ({ pages, copies, ro1 = 0.7, ro2 = 0.6 }) => {
+export const calcAmount = ({ pages, copies, ro1, ro2 }) => {
   let amount =
     Math.floor(pages / 2) * 2 * ro2 * copies +
     (pages - Math.floor(pages / 2) * 2) * copies * ro1;
@@ -32,11 +33,6 @@ const reducer = (state, action) => {
       return {
         ...state,
         dataEntry: { ...state.dataEntry, ...action.dataEntry },
-      };
-    case "RESET_DATA_ENTRY":
-      return {
-        ...state,
-        dataEntry: {},
       };
     case "ADD_CLIENT_DATA":
       return {
@@ -83,6 +79,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         sortBy: action.sortBy,
+      };
+
+    case "SET_CLIENT_TO_BE_DELETED":
+      return {
+        ...state,
+        clientToBeDeleted: action.client,
       };
     default:
       return state;

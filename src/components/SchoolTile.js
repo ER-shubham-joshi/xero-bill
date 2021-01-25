@@ -10,12 +10,11 @@ import { Link, useHistory } from "react-router-dom";
 import { db } from "../firebase";
 import firebase from "firebase";
 
-function SchoolTile({ name, created }) {
+function SchoolTile({ name, created, openPop }) {
   const history = useHistory();
   const [{ user, clients }, dispatch] = useStateValue();
 
   const handleSchoolPress = () => {
-    console.log("tile pressed");
     window.sessionStorage.setItem("clientName", name);
     dispatch({
       type: "SET_CLIENT_NAME",
@@ -25,15 +24,12 @@ function SchoolTile({ name, created }) {
   };
 
   const handleDelete = () => {
-    let aClient = clients.filter((obj) => obj.name !== name);
-
-    console.log("delete pressed");
-
-    db.collection("users").doc(user.uid).set({
-      clients: aClient,
+    dispatch({
+      type: "SET_CLIENT_TO_BE_DELETED",
+      client: name,
     });
 
-    // history.push("/");
+    openPop();
   };
 
   return (
